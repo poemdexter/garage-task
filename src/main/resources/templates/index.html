@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Garage Weather App</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<form action="#" th:action="@{/}" th:object="${g}" method="post">
+    <input type="text" th:field="*{zipCode}" />
+    <button name="submitZip" type="submit">Submit</button>
+</form>
+
+<div th:text="${result}">
+</div>
+</body>
+</html>
