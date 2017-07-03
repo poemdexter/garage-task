@@ -12,7 +12,7 @@ class WeatherService {
 
         def slurper = new JsonSlurper()
 
-        def result = slurper.parse(url.toURL().text)
+        def result = slurper.parse(url.toURL())
         return result.main.temp
     }
 }
