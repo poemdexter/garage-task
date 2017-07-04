@@ -4,23 +4,32 @@ buildscript {
 	}
 	repositories {
 		mavenCentral()
+        jcenter()
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath 'se.transmode.gradle:gradle-docker:1.2'
 	}
 }
 
 apply plugin: 'groovy'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'docker'
 
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0'
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+jar {
+    baseName = 'garage'
+    version = "${version}"
+}
 
 repositories {
 	mavenCentral()
+    jcenter()
 }
-
 
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
@@ -28,4 +37,20 @@ dependencies {
 	compile 'org.codehaus.groovy:groovy-all'
 
 	testCompile 'org.springframework.boot:spring-boot-starter-test'
+}
+
+task docker(type: Docker) {
+    push = false
+    applicationName = 'garage'
+    dockerfile = file('docker/Dockerfile')
+    doFirst {
+        copy {
+            from jar
+            into "$stageDir/build/libs"
+        }
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.1'
 }
